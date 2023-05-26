@@ -6,7 +6,7 @@ import axios from 'axios';
 import Link from 'next/link';
 
 import pimps from './shared/pimps_long.json';
-import { calculateStandings } from './shared/helpersFP';
+import { calculateStandings } from './shared/helpers';
 import { data } from 'autoprefixer'
 
 
@@ -109,25 +109,25 @@ export default async function Home() {
           <tbody>
             {tableStandings.map((match, index) => (
               <tr
-                className='border-b bg-yellow text-left transition duration-300 ease-in-out hover:bg-gray-100'
+                className='border-b bg-blue text-left transition duration-300 ease-in-out hover:bg-gray-500'
                 key={index}>
-                <td className='border-b bg-yellow p-1 text-left'>
+                <td className='border-b bg-blue p-1 text-left'>
                   {index + 1}
                 </td>
                 {index + 1 === 1 ? (
-                  <td className='border-b bg-yellow p-1 text-left font-bold text-green-400'>
+                  <td className='border-b bg-blue p-1 text-left font-bold text-green-400'>
                     {match.team}
                   </td>
                 ) : index + 1 === 12 || index + 1 === 13 || index + 1 === 14 ? (
-                  <td className='border-b bg-yellow p-1 text-left font-semibold text-red-300'>
+                  <td className='border-b bg-blue p-1 text-left font-semibold text-red-300'>
                     {match.team}
                   </td>
                 ) : match.team === 'West Ham United FC' ? (
-                  <td className='border-b bg-yellow p-1 text-left text-xl font-extrabold text-burgundy'>
+                  <td className='border-b bg-blue p-1 text-left text-xl font-extrabold text-burgundy'>
                     {match.team}
                   </td>
                 ) : (
-                  <td className='border-b bg-yellow p-1 text-left'>
+                  <td className='border-b bg-blue p-1 text-left'>
                     {match.team}
                   </td>
                 )}
@@ -163,7 +163,7 @@ export default async function Home() {
         </table>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-yellow before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
+      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-blue before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
         <Image
           className='relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert'
           src='/next.svg'
