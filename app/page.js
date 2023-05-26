@@ -1,113 +1,178 @@
-import Image from 'next/image'
+/* eslint-disable react/jsx-key */
+const _ = require('lodash/fp');
 
-export default function Home() {
+import Image from 'next/image';
+import axios from 'axios';
+import Link from 'next/link';
+
+import pimps from './shared/pimps_long.json';
+import { calculateStandings } from './shared/helpersFP';
+import { data } from 'autoprefixer'
+
+
+const apiKey = process.env.REACT_APP_FOOTBAL_API_KEY;
+
+const options = {
+  method: 'GET',
+  headers: {
+    'X-Auth-Token': apiKey,
+  },
+};
+const BASE_URL = 'https://api.football-data.org/v4/';
+
+async function fetchData() {
+  // Fetch matches from the API
+  const res = await fetch(`${BASE_URL}competitions/2021/matches`, options);
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+
+  // Recommendation: handle errors
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+}
+
+export default async function Home() {
+  const data = await fetchData();
+  const results = data.matches.filter(
+    (p) => !pimps.includes(p.homeTeam.name) && !pimps.includes(p.awayTeam.name)
+  );
+
+  function gameStatus(x) {
+    return x === 'FINISHED';
+  }
+
+  //format results data for processing/calculating
+  const finishedGames = results
+    .filter((r) => gameStatus(r.status))
+    .map((m) =>
+      //let dataDayCommon = m.utcDate.split('T');
+      //let dataDay = dataDayCommon[0].split('-').reverse().join('-');
+      //let time = dataDayCommon[1].slice(0, -4);
+      ({
+        d: m.id,
+        name: m.stage,
+        awayTeam: m.awayTeam.name,
+        homeTeam: m.homeTeam.name,
+        status: m.status,
+        outcome: m.score.winner,
+        //dataDay: dataDay,
+        //time: time,
+        // awayScore: m.score.fullTime.awayTeam,
+        awayScore: m.score.fullTime.away,
+        // awayScore: m.score.fullTime.homeTeam,
+        homeScore: m.score.fullTime.home,
+      })
+    );
+
+  // console.log('finishedGames: ', finishedGames);
+      const tableStandings = calculateStandings(finishedGames);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+      <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
+        {/* <ul> */}
+          {/* {console.log(finishedGames)} */}
+          {/* {finishedGames.map((match, index) => (
+            <div key={index}>
+              {match.homeTeam} ({match.homeScore}-{match.awayScore}){' '}
+              {match.awayTeam}{' '}
+            </div>
+          ))} */}
+        {/*</ul> */}
+        {/* <div>
+        <h5 className='"text-2xl w-full" px-2 pt-8 pb-8 text-center font-extrabold md:text-4xl lg:text-5xl'>
+          EPL - English Pimp-Less League
+        </h5>
+        </div> */}
+        <table className='w-full text-base'>
+          <thead className='border-b'>
+            <tr className='text-left'>
+              <th>Position</th>
+              <th className='team-header'>Team</th>
+              <th className='p-1 pb-2 text-center'>GP</th>
+              <th className='p-1 pb-2 text-center'>W</th>
+              <th className='p-1 pb-2 text-center'>D</th>
+              <th className='p-1 pb-2 text-center'>L</th>
+              <th className='p-1 pb-2 text-center'>F</th>
+              <th className='p-1 pb-2 text-center'>A</th>
+              <th className='p-1 pb-2 text-center'>GD</th>
+              <th className='p-1 pb-2 text-center'>Pts</th>
+              <th className='hidden p-1 pb-2 text-center md:table-cell'>
+                FORM
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableStandings.map((match, index) => (
+              <tr
+                className='border-b bg-yellow text-left transition duration-300 ease-in-out hover:bg-gray-100'
+                key={index}>
+                <td className='border-b bg-yellow p-1 text-left'>
+                  {index + 1}
+                </td>
+                {index + 1 === 1 ? (
+                  <td className='border-b bg-yellow p-1 text-left font-bold text-green-400'>
+                    {match.team}
+                  </td>
+                ) : index + 1 === 12 || index + 1 === 13 || index + 1 === 14 ? (
+                  <td className='border-b bg-yellow p-1 text-left font-semibold text-red-300'>
+                    {match.team}
+                  </td>
+                ) : match.team === 'West Ham United FC' ? (
+                  <td className='border-b bg-yellow p-1 text-left text-xl font-extrabold text-burgundy'>
+                    {match.team}
+                  </td>
+                ) : (
+                  <td className='border-b bg-yellow p-1 text-left'>
+                    {match.team}
+                  </td>
+                )}
+                <td className='p-1 text-center'>{match.gp}</td>
+                <td className='p-1 text-center'>{match.wins}</td>
+                <td className='p-1 text-center'>{match.draws}</td>
+                <td className='p-1 text-center'>{match.losses}</td>
+                <td className='p-1 text-center'>{match.goalsFor}</td>
+                <td className='p-1 text-center'>{match.goalsAgainst}</td>
+                <td className='p-1 text-center'>
+                  {match.goalsFor - match.goalsAgainst}
+                </td>
+                <td className='p-1 text-center'>{match.points}</td>
+                <td className='hidden p-1 text-center md:table-cell'>
+                  <div className='flex w-full items-center justify-center'>
+                    {_.takeRight(match.form, 5).map((f) =>
+                      f === 'w' ? (
+                        <div className='mx-0.5 mb-2 h-3 w-1 rounded bg-green-500'></div>
+                      ) : f === 'l' ? (
+                        <div className='mx-0.5 mt-2 h-3 w-1 rounded bg-red-500'></div>
+                      ) : (
+                        <div className='mx-0.5 mb-1 h-1 w-1 rounded bg-gray-500'></div>
+                      )
+                    )}
+                  </div>
+                  {/* <td className='p-1 text-center'>
+                  {_.takeRight(match.form, 5)}
+                </td> */}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
+      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-yellow before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
         <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
+          className='relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert'
+          src='/next.svg'
+          alt='Next.js Logo'
           width={180}
           height={37}
           priority
         />
       </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
-  )
+  );
 }
