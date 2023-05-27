@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-key */
 const _ = require('lodash/fp');
+import { revalidatePath } from 'next/cache';
 
 import Image from 'next/image';
 import axios from 'axios';
 import Link from 'next/link';
 
 import pimps from './shared/pimps_long.json';
-import { calculateStandings } from './shared/helpers';
+import { calculateStandings } from './shared/helpersFP';
 import { data } from 'autoprefixer'
 
 
@@ -21,6 +22,7 @@ const options = {
 const BASE_URL = 'https://api.football-data.org/v4/';
 
 async function fetchData() {
+  "use server";
   // Fetch matches from the API
   const res = await fetch(`${BASE_URL}competitions/2021/matches`, options);
   // The return value is *not* serialized
@@ -33,6 +35,8 @@ async function fetchData() {
   }
 
   return res.json();
+  //to refresh page automatically
+  revalidatePath("/");
 }
 
 export default async function Home() {
@@ -74,20 +78,9 @@ export default async function Home() {
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
-        {/* <ul> */}
-          {/* {console.log(finishedGames)} */}
-          {/* {finishedGames.map((match, index) => (
-            <div key={index}>
-              {match.homeTeam} ({match.homeScore}-{match.awayScore}){' '}
-              {match.awayTeam}{' '}
-            </div>
-          ))} */}
-        {/*</ul> */}
-        {/* <div>
-        <h5 className='"text-2xl w-full" px-2 pt-8 pb-8 text-center font-extrabold md:text-4xl lg:text-5xl'>
+        {/* <h5 className='"text-2xl w-full" px-2 pt-8 pb-8 text-center font-extrabold md:text-4xl lg:text-5xl'>
           EPL - English Pimp-Less League
-        </h5>
-        </div> */}
+        </h5> */}
         <table className='w-full text-base'>
           <thead className='border-b'>
             <tr className='text-left'>
@@ -119,7 +112,7 @@ export default async function Home() {
                     {match.team}
                   </td>
                 ) : index + 1 === 12 || index + 1 === 13 || index + 1 === 14 ? (
-                  <td className='border-b bg-blue p-1 text-left font-semibold text-red-300'>
+                  <td className='border-b bg-blue p-1 text-left font-semibold text-red-500'>
                     {match.team}
                   </td>
                 ) : match.team === 'West Ham United FC' ? (
