@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
-const _ = require('lodash/fp');
+// note using non-fp of _takeRight
+import _ from 'lodash';
 import { revalidatePath } from 'next/cache';
 
 import Image from 'next/image';
@@ -78,21 +79,19 @@ export default async function Home() {
     const tableStandings = calculateStandings(finishedGames);
     // console.log('finishedGames: ', finishedGames);
       console.log("tableStandings: ", tableStandings);
-      const tsWithCrests = [];
-      // const addCrestToTeam = (crest) => (team) => _.set('crest', crest, team);
-      // const teamsWithCrests = _.map.addIndex(addCrestToTeam, tableStandings)(crestFiles);
-      // console.log(_.map(tableStandings, (x) => (x.a == 1 ? _.extend(x, { b: 1 }) : x)));
+      
+  
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
         {/* <h5 className='"text-2xl w-full" px-2 pt-8 pb-8 text-center font-extrabold md:text-4xl lg:text-5xl'>
           EPL - English Pimp-Less League
         </h5> */}
-        <table className='w-full text-base'>
+        <table className='table auto w-full text-base'>
           <thead className='border-b'>
             <tr className='text-left'>
-              <th>Position</th>
-              <th>Crest</th>
+              <th className='text-center'>Position</th>
+              <th className='text-left'>Crest</th>
               <th className='team-header'>Team</th>
               <th className='p-1 pb-2 text-center'>GP</th>
               <th className='p-1 pb-2 text-center'>W</th>
@@ -112,14 +111,14 @@ export default async function Home() {
               <tr
                 className='border-b bg-blue text-left transition duration-300 ease-in-out hover:bg-gray-500'
                 key={index}>
-                <td className='border-b bg-blue p-1 text-left'>{index + 1}</td>
+                <td className='border-b bg-blue p-1 text-center'>{index + 1}</td>
                 <td>
                   <Image
-                    className='relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert'
+                    className='relative p-0.5 dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert'
                     src={match.crest}
                     alt={'alt'}
-                    width={30}
-                    height={30}
+                    width={28}
+                    height={28}
                     priority
                   />
                 </td>
@@ -172,7 +171,7 @@ export default async function Home() {
         </table>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-blue before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
+      <div className="relative flex place-items-center p-5 before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-blue before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
         <Image
           className='relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert'
           src='/next.svg'
