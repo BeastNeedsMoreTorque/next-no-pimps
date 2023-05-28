@@ -7,7 +7,8 @@ import axios from 'axios';
 import Link from 'next/link';
 
 import pimps from './shared/pimps_long.json';
-import { calculateStandings } from './shared/helpersFP';
+// import { calculateStandings } from './shared/helpersFP';
+import { calculateStandings } from './shared/helpersFPCrests';
 import { data } from 'autoprefixer'
 
 
@@ -60,7 +61,9 @@ export default async function Home() {
         d: m.id,
         name: m.stage,
         awayTeam: m.awayTeam.name,
+        crestAway: m.awayTeam.crest,
         homeTeam: m.homeTeam.name,
+        crestHome: m.homeTeam.crest,
         status: m.status,
         outcome: m.score.winner,
         //dataDay: dataDay,
@@ -72,9 +75,13 @@ export default async function Home() {
       })
     );
 
-  // console.log('finishedGames: ', finishedGames);
-      const tableStandings = calculateStandings(finishedGames);
-
+    const tableStandings = calculateStandings(finishedGames);
+    // console.log('finishedGames: ', finishedGames);
+      console.log("tableStandings: ", tableStandings);
+      const tsWithCrests = [];
+      // const addCrestToTeam = (crest) => (team) => _.set('crest', crest, team);
+      // const teamsWithCrests = _.map.addIndex(addCrestToTeam, tableStandings)(crestFiles);
+      // console.log(_.map(tableStandings, (x) => (x.a == 1 ? _.extend(x, { b: 1 }) : x)));
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
@@ -85,6 +92,7 @@ export default async function Home() {
           <thead className='border-b'>
             <tr className='text-left'>
               <th>Position</th>
+              <th>Crest</th>
               <th className='team-header'>Team</th>
               <th className='p-1 pb-2 text-center'>GP</th>
               <th className='p-1 pb-2 text-center'>W</th>
@@ -104,8 +112,16 @@ export default async function Home() {
               <tr
                 className='border-b bg-blue text-left transition duration-300 ease-in-out hover:bg-gray-500'
                 key={index}>
-                <td className='border-b bg-blue p-1 text-left'>
-                  {index + 1}
+                <td className='border-b bg-blue p-1 text-left'>{index + 1}</td>
+                <td>
+                  <Image
+                    className='relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert'
+                    src={match.crest}
+                    alt={'alt'}
+                    width={30}
+                    height={30}
+                    priority
+                  />
                 </td>
                 {index + 1 === 1 ? (
                   <td className='border-b bg-blue p-1 text-left font-bold text-green-400'>

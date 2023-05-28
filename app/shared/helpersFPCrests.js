@@ -1,14 +1,12 @@
-import _ from 'lodash/fp';
+import { flow, set, reduce, values, sortBy, reverse } from 'lodash/fp';
 
 export const calculateStandings = (matches) => {
-  // Use Lodash/fp to create an object with team names as keys
-  // and the initial values for points, goalsFor, goalsAgainst
-  const initialStandings = _.reduce(
+  const initialStandings = reduce(
     (result, match) => {
-      return _.flow(
-        _.set([match.homeTeam], {
+      return flow(
+        set([match.homeTeam], {
           team: match.homeTeam,
-          // crest: '',
+          crest: '', // Set initial value for crest
           gp: 0,
           wins: 0,
           draws: 0,
@@ -19,9 +17,9 @@ export const calculateStandings = (matches) => {
           pointsArray: [],
           form: [],
         }),
-        _.set([match.awayTeam], {
+        set([match.awayTeam], {
           team: match.awayTeam,
-          // crest: match.awayTeam.crest,
+          crest: '', // Set initial value for crest
           gp: 0,
           wins: 0,
           draws: 0,
@@ -38,34 +36,37 @@ export const calculateStandings = (matches) => {
     matches
   );
 
-  // Use Lodash/fp to iterate over the matches and update the standings
-  const updatedStandings = _.reduce(
+  const updatedStandings = reduce(
     (result, match) => {
       if (match.outcome === 'HOME_TEAM') {
-        // result[match.homeTeam].crest = match.homeTeam.crest;
+        result[match.homeTeam].crest = match.crestHome; // Set crest value
         result[match.homeTeam].points += 3;
         result[match.homeTeam].pointsArray.push(result[match.homeTeam].points);
         result[match.homeTeam].wins += 1;
         result[match.homeTeam].form.push('w');
-        // result[match.awayTeam].crest = match.awayTeam.crest;
+        result[match.awayTeam].crest = match.crestAway; // Set crest value
         result[match.awayTeam].points += 0;
         result[match.awayTeam].pointsArray.push(result[match.awayTeam].points);
         result[match.awayTeam].losses += 1;
         result[match.awayTeam].form.push('l');
       } else if (match.outcome === 'DRAW') {
+        result[match.homeTeam].crest = match.crestHome; // Set crest value
         result[match.homeTeam].points += 1;
         result[match.homeTeam].pointsArray.push(result[match.homeTeam].points);
         result[match.homeTeam].draws += 1;
         result[match.homeTeam].form.push('d');
+        result[match.awayTeam].crest = match.crestAway; // Set crest value
         result[match.awayTeam].points += 1;
         result[match.awayTeam].pointsArray.push(result[match.awayTeam].points);
         result[match.awayTeam].draws += 1;
         result[match.awayTeam].form.push('d');
       } else if (match.outcome === 'AWAY_TEAM') {
+        result[match.homeTeam].crest = match.crestHome; // Set crest value
         result[match.homeTeam].points += 0;
         result[match.homeTeam].pointsArray.push(result[match.homeTeam].points);
         result[match.homeTeam].losses += 1;
         result[match.homeTeam].form.push('l');
+        result[match.awayTeam].crest = match.crestAway; // Set crest value
         result[match.awayTeam].points += 3;
         result[match.awayTeam].pointsArray.push(result[match.awayTeam].points);
         result[match.awayTeam].wins += 1;
@@ -82,12 +83,12 @@ export const calculateStandings = (matches) => {
     initialStandings,
     matches
   );
-  // console.log('intialStandings', initialStandings);
-  // Use Lodash/fp to convert the object to an array and sort by points
-  const sortedStandings = _.flow(
-    _.values,
-    _.sortBy('points'),
-    _.reverse
+
+  const sortedStandings = flow(
+    values,
+    sortBy('points'),
+    reverse
   )(updatedStandings);
+
   return sortedStandings;
 };
