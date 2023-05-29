@@ -81,7 +81,7 @@ export default async function Home() {
 
   return (
     <>
-      <Link href='about'>About</Link>
+      <Link className='border border-slate-300 text-slate-300 px-2 py-1 rounded' href='about'>About</Link>
       <main className='flex min-h-screen flex-col items-center justify-between p-24'>
         <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
           {/* <h5 className='"text-2xl w-full" px-2 pt-8 pb-8 text-center font-extrabold md:text-4xl lg:text-5xl'>
