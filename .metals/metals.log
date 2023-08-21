@@ -1,0 +1,73 @@
+2023.06.03 23:12:46 INFO  Started: Metals version 0.11.12 in workspace 'H:\workshop\javascript\no_typescript\next-no-pimps' for client Visual Studio Code 1.78.2.
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.license.VersionPrinter printVersionOnly
+INFO: Flyway Community Edition 9.16.3 by Redgate
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.license.VersionPrinter printVersion
+INFO: See release notes here: https://rd.gt/416ObMi
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.license.VersionPrinter printVersion
+INFO: 
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.database.base.BaseDatabaseType createDatabase
+INFO: Database: jdbc:h2:file:H:\workshop\javascript\no_typescript\next-no-pimps\.metals\metals (H2 2.1)
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory allAppliedMigrations
+INFO: Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.command.DbValidate validate
+INFO: Successfully validated 4 migrations (execution time 00:00.011s)
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory create
+INFO: Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.command.DbMigrate migrateGroup
+INFO: Current version of schema "PUBLIC": << Empty Schema >>
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.command.DbMigrate doMigrateGroup
+INFO: Migrating schema "PUBLIC" to version "1 - Create tables"
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.command.DbMigrate doMigrateGroup
+INFO: Migrating schema "PUBLIC" to version "2 - Server discovery"
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.command.DbMigrate doMigrateGroup
+INFO: Migrating schema "PUBLIC" to version "3 - Jar symbols"
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.command.DbMigrate doMigrateGroup
+INFO: Migrating schema "PUBLIC" to version "4 - Fingerprints"
+Jun. 03, 2023 11:12:46 P.M. org.flywaydb.core.internal.command.DbMigrate logSummary
+INFO: Successfully applied 4 migrations to schema "PUBLIC", now at version v4 (execution time 00:00.037s)
+2023.06.03 23:12:46 INFO  time: initialize in 0.41s
+2023.06.03 23:12:48 WARN  Build server is not auto-connectable.
+2023.06.03 23:12:48 WARN  no build tool detected in workspace 'H:\workshop\javascript\no_typescript\next-no-pimps'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2023.06.03 23:12:48 WARN  no build target for: H:\workshop\javascript\no_typescript\next-no-pimps\app\shared\scala_version.scala
+2023.06.03 23:12:57 INFO  no build target found for H:\workshop\javascript\no_typescript\next-no-pimps\app\shared\scala_version.scala. Using presentation compiler with project's scala-library version: 3.2.2
+Jun. 03, 2023 11:20:09 P.M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 175
+2023.06.03 23:20:13 WARN  no build target for: H:\workshop\javascript\no_typescript\next-no-pimps\app\shared\scala_version.scala
+Jun. 03, 2023 11:21:21 P.M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 220
+Jun. 03, 2023 11:22:46 P.M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 273
+2023.06.03 23:22:55 WARN  no build target for: H:\workshop\javascript\no_typescript\next-no-pimps\app\shared\scala_version.scala
+Jun. 03, 2023 11:22:57 P.M. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 301
+2023.06.03 23:23:25 WARN  no build target for: H:\workshop\javascript\no_typescript\next-no-pimps\app\shared\scala_version.scala
+2023.06.03 23:23:36 WARN  no build target for: H:\workshop\javascript\no_typescript\next-no-pimps\app\shared\scala_version.scala
+2023.06.03 23:24:28 WARN  no build target for: H:\workshop\javascript\no_typescript\next-no-pimps\app\shared\scala_version.scala
+2023.06.03 23:55:16 INFO  Shutting down server
+2023.06.03 23:55:16 INFO  shutting down Metals
+2023.06.03 23:55:16 INFO  Exiting server
+2023.06.09 14:09:14 INFO  Started: Metals version 0.11.12 in workspace 'H:\workshop\javascript\no_typescript\next-no-pimps' for client Visual Studio Code 1.79.0.
+Jun. 09, 2023 2:09:14 P.M. org.flywaydb.core.internal.license.VersionPrinter printVersionOnly
+INFO: Flyway Community Edition 9.16.3 by Redgate
+Jun. 09, 2023 2:09:14 P.M. org.flywaydb.core.internal.license.VersionPrinter printVersion
+INFO: See release notes here: https://rd.gt/416ObMi
+Jun. 09, 2023 2:09:14 P.M. org.flywaydb.core.internal.license.VersionPrinter printVersion
+INFO: 
+Jun. 09, 2023 2:09:14 P.M. org.flywaydb.core.internal.database.base.BaseDatabaseType createDatabase
+INFO: Database: jdbc:h2:file:H:\workshop\javascript\no_typescript\next-no-pimps\.metals\metals (H2 2.1)
+Jun. 09, 2023 2:09:14 P.M. org.flywaydb.core.internal.command.DbValidate validate
+INFO: Successfully validated 4 migrations (execution time 00:00.016s)
+Jun. 09, 2023 2:09:14 P.M. org.flywaydb.core.internal.command.DbMigrate migrateGroup
+INFO: Current version of schema "PUBLIC": 4
+Jun. 09, 2023 2:09:14 P.M. org.flywaydb.core.internal.command.DbMigrate logSummary
+INFO: Schema "PUBLIC" is up to date. No migration necessary.
+2023.06.09 14:09:14 INFO  time: initialize in 0.41s
+2023.06.09 14:09:16 WARN  Build server is not auto-connectable.
+2023.06.09 14:09:16 WARN  no build tool detected in workspace 'H:\workshop\javascript\no_typescript\next-no-pimps'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2023.06.09 14:09:16 WARN  no build target for: H:\workshop\javascript\no_typescript\next-no-pimps\app\shared\scala_version.scala
+2023.06.09 14:09:19 INFO  no build target found for H:\workshop\javascript\no_typescript\next-no-pimps\app\shared\scala_version.scala. Using presentation compiler with project's scala-library version: 3.2.2
+2023.06.09 14:09:21 INFO  time: code lens generation in 4.62s
+2023.06.09 14:09:21 INFO  time: code lens generation in 1.74s
+2023.06.09 14:12:51 INFO  Shutting down server
+2023.06.09 14:12:51 INFO  shutting down Metals
+2023.06.09 14:12:51 INFO  Exiting server

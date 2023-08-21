@@ -84,6 +84,8 @@ export const calculateStandings = (matches) => {
     matches
   );
 
+console.log("updatedStandings", updatedStandings);
+
   const sortedStandings = flow(
     values,
     sortBy('points'),
