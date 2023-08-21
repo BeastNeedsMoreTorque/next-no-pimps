@@ -14,6 +14,20 @@ case class TeamData(
   form: List[String] = List()
 )
 
+case class Match(
+  id: String,
+  stage: String,
+  crestHome: String,
+  crestAway: String,
+  awayTeam: String,
+  homeTeam: String,
+  status: String,
+  outcome: String,
+  awayGoals: Int,
+  homeGoals: Int
+)
+
+
 def calculateStandings(matches: List[Match]): List[TeamData] = {
   val initialStandings: Map[String, TeamData] = matches.flatMap { m =>
     List(
@@ -22,7 +36,7 @@ def calculateStandings(matches: List[Match]): List[TeamData] = {
     )
   }.toMap
 
-  def updateTeamData(team: TeamData, points: Int, outcome: String, form: String): TeamData = {
+  def updateTeamData(m: Match, team: TeamData, points: Int, outcome: String, form: String): TeamData = {
     val updatedCrest = if (outcome == "HOME_TEAM") m.crestHome else m.crestAway
     team.copy(
       crest = updatedCrest,
@@ -38,16 +52,16 @@ def calculateStandings(matches: List[Match]): List[TeamData] = {
 
     m.outcome match {
       case "HOME_TEAM" =>
-        val updatedHomeTeam = updateTeamData(homeTeam, 3, "HOME_TEAM", "w")
-        val updatedAwayTeam = updateTeamData(awayTeam, 0, "AWAY_TEAM", "l")
+        val updatedHomeTeam = updateTeamData(m, homeTeam, 3, "HOME_TEAM", "w")
+        val updatedAwayTeam = updateTeamData(m, awayTeam, 0, "AWAY_TEAM", "l")
         standings + (m.homeTeam -> updatedHomeTeam, m.awayTeam -> updatedAwayTeam)
       case "DRAW" =>
-        val updatedHomeTeam = updateTeamData(homeTeam, 1, "DRAW", "d")
-        val updatedAwayTeam = updateTeamData(awayTeam, 1, "DRAW", "d")
+        val updatedHomeTeam = updateTeamData(m, homeTeam, 1, "DRAW", "d")
+        val updatedAwayTeam = updateTeamData(m, awayTeam, 1, "DRAW", "d")
         standings + (m.homeTeam -> updatedHomeTeam, m.awayTeam -> updatedAwayTeam)
       case "AWAY_TEAM" =>
-        val updatedHomeTeam = updateTeamData(homeTeam, 0, "HOME_TEAM", "l")
-        val updatedAwayTeam = updateTeamData(awayTeam, 3, "AWAY_TEAM", "w")
+        val updatedHomeTeam = updateTeamData(m, homeTeam, 0, "HOME_TEAM", "l")
+        val updatedAwayTeam = updateTeamData(m, awayTeam, 3, "AWAY_TEAM", "w")
         standings + (m.homeTeam -> updatedHomeTeam, m.awayTeam -> updatedAwayTeam)
     }
   }
